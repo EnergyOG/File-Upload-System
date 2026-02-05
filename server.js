@@ -1,18 +1,20 @@
 import express from 'express';
-import multer from 'multer';
 import dotenv from 'dotenv';
+import uploadRoutes from './routes/uploadRoutes.js';
+import errorHandler from './middleware/errorHandler.js';
 
 dotenv.config();
 
 const app = express();
-const port = process.env.PORT || 3003;
 
-const routing = (req, res) => {
-  res.status(200).send('Testing...');
-};
+app.use(express.json());
 
-app.get('/', routing);
+app.use('/api', uploadRoutes);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.use(errorHandler);
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
 });

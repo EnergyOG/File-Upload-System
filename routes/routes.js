@@ -5,7 +5,7 @@ import { uploadFile, uploadImage } from '../controllers/uploadController.js';
 const router = express.Router();
 
 router.post(
-  '/upload',
+  '/uploadFile',
   upload.single('file'),
   uploadFile              
 );
