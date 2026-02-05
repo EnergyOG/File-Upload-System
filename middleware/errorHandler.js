@@ -1,9 +1,16 @@
-import winston from 'winston';
-import express from 'express';
+import logger from '../utils/logger.js';
 
 const errorHandler = (err, req, res, next) => {
-  winston.error(err.message, err);
-  res.status(500).json({ message: 'An unexpected error occurred', error: err.message });
+  logger.error(err.message, {
+    method: req.method,
+    url: req.originalUrl,
+    stack: err.stack,
+  });
+
+  res.status(err.statusCode || 500).json({
+    success: false,
+    message: err.message || 'An unexpected error occurred',
+  });
 };
 
 export default errorHandler;
